@@ -17,7 +17,7 @@
           <?php foreach ($menu as $clave => $texto): ?>
             <li class="nav-item">
               <a class="nav-link <?= ($p === $clave) ? 'active' : '' ?>"
-                href="index.php?p=<?= $clave ?>">
+                href="redirect.php?p=<?= $clave ?>">
                 <?= htmlspecialchars($texto) ?>
               </a>
             </li>
