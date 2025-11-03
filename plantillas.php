@@ -47,6 +47,6 @@ function generarLogout()
     return "
     <form method='POST' action='procesar_acceso.php'>
         <input type='hidden' name='logout' value='logout'>
-        <input type='submit' value='Cerrar sesión'>
+        <input type='submit' class='btn btn-primary' value='Cerrar sesión'>
     </form>";
 }

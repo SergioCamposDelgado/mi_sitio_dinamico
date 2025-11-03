@@ -1,4 +1,5 @@
 <?php
+include_once('plantillas.php');
 session_start();
 $user = $_SESSION['usuario'];
 ?>
@@ -7,8 +8,5 @@ $user = $_SESSION['usuario'];
 <h3 class="text-success text-center mt-4">Hola, <?= $user ?>
 </h3>
 <h3 class="text-success text-center mt-4">
-    <form method='POST' action='procesar_acceso.php'>
-        <input type='hidden' name='logout' value='logout'>
-        <input type='submit' value='Cerrar sesión'>
-    </form>
+    <?= generarLogout()?>
 </h3>
