@@ -1,5 +1,14 @@
 <?php
 // Estructura asociativa: producto => precio
+
+require_once __DIR__ . '/plantillas.php';
+
+$contenido = mostrarListadoProductos();
+
+echo generarPaginaHTML('Listado de productos', $contenido);
+
+
+/* ANTIGUO
 $productos = [
   "Pan de Camas"        => 1.20,
   "Aceitunas aliñadas"  => 2.50,
@@ -24,4 +33,4 @@ $productos = [
       </tr>
     <?php endforeach; ?>
   </tbody>
-</table>
+</table> */

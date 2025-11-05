@@ -4,7 +4,13 @@ require_once __DIR__ . '/../../config.php';
 
 $auth = $_SESSION['auth'] ?? null;
 
-function esAdmin(): bool {
+function esUser(): bool
+{
+    return isset($_SESSION['auth']['rol']) && $_SESSION['auth']['rol'] === 'usuario';
+}
+
+function esAdmin(): bool
+{
     return isset($_SESSION['auth']['rol']) && $_SESSION['auth']['rol'] === 'admin';
 }
 
@@ -15,9 +21,11 @@ if ($auth) {
     $contenido .= generarLogout(ACTION_URL);
 
     if (esAdmin()) {
-        $contenido .= mostrarListadoUsuarios(); 
+        $contenido .= mostrarListadoUsuarios();
     }
-
+    if (esUser()) {
+        $contenido .= "<b> ES USUARIO </b>";
+    }
 } else {
     $contenido = generarFormularioLogin(ACTION_URL);
 }
