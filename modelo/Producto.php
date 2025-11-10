@@ -2,8 +2,6 @@
 //activar el modo estricto de tipos
 declare(strict_types=1);
 
-use BcMath\Number;
-
 require_once __DIR__ . '/Entidad.php';
 
 /**
@@ -15,6 +13,7 @@ require_once __DIR__ . '/Entidad.php';
  */
 class Producto extends Entidad
 {
+
     public string $nombre  = '';
     public float $precio = 0.0;
 
