@@ -1,4 +1,5 @@
 <?php
+
 /**
  * https://www.w3schools.com/charsets/ref_utf_symbols.asp
  */
@@ -16,17 +17,19 @@ require_once __DIR__ . '/Entidad.php';
  */
 class Producto extends Entidad
 {
-  
+
     public function __construct(
-    public string $nombre,
-    public float $precio
-  ) {}
-  
+        public string $nombre,
+        public float $precio,
+        public int $stock,
+        public string $descripcion
+    ) {}
+
     public static function vacio(): self
     {
-        return new self("", 0.0);
+        return new self("", 0.0, 0, "");
     }
-  
+
     /**
      * Convierte el objeto en un array (útil para debug o JSON).
      */
@@ -35,7 +38,9 @@ class Producto extends Entidad
         return [
             'id'      => $this->getId(),
             'nombre'  => $this->nombre,
-            'precio'     => $this->precio
+            'precio'     => $this->precio,
+            'stock' => $this->stock,
+            'descripcion' => $this->descripcion
         ];
     }
 }
