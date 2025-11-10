@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // /nucleo/Datos.php
@@ -27,26 +28,126 @@ function semillaProductosDatos(bool $reset = false): int
     $afectadas = 0;
 
     $productos = [
-        ['producto' => 'Pan de Camas',                   'precio' => 1.20],
-        ['producto' => 'Aceitunas aliñadas de Camas',    'precio' => 2.50],
-        ['producto' => 'Tortas de aceite',               'precio' => 3.00],
-        ['producto' => 'Aceite Virgen Extra “Aljarafe”', 'precio' => 6.80],
-        ['producto' => 'Jamón ibérico de recebo',        'precio' => 12.50],
-        ['producto' => 'Queso de cabra payoya',          'precio' => 4.75],
-        ['producto' => 'Miel de azahar del Aljarafe',    'precio' => 5.20],
-        ['producto' => 'Almendras fritas estilo barra',  'precio' => 3.40],
-        ['producto' => 'Bollos de anís tradicionales',   'precio' => 2.30],
-        ['producto' => 'Paté de aceituna verde',         'precio' => 3.10],
-        ['producto' => 'Vino blanco DO “Aljarafe”',      'precio' => 8.50],
-        ['producto' => 'Dulce de membrillo artesano',    'precio' => 2.90],
-        ['producto' => 'Anchoas en aceite de oliva',     'precio' => 7.20],
-        ['producto' => 'Chorizo casero del Aljarafe',    'precio' => 4.60],
-        ['producto' => 'Flor de sal del Guadalquivir',   'precio' => 2.70],
-        ['producto' => 'Mermelada de higo de la zona',   'precio' => 3.30],
-        ['producto' => 'Cervezas artesanas sevillanas',  'precio' => 2.80],
-        ['producto' => 'Tomate seco en aceite',          'precio' => 4.20],
-        ['producto' => 'Aceite arbequina 250 ml',        'precio' => 5.60],
-        ['producto' => 'Picos de pan artesanos',         'precio' => 1.80],
+        [
+            'producto'    => 'Pan de Camas',
+            'precio'      => 1.20,
+            'stock'       => 48,
+            'descripcion' => 'Pan artesano elaborado con masa madre y harina de trigo local. Horno de leña tradicional de Camas.'
+        ],
+        [
+            'producto'    => 'Aceitunas aliñadas de Camas',
+            'precio'      => 2.50,
+            'stock'       => 37,
+            'descripcion' => 'Aceitunas gordales partidas y aliñadas con pimiento, ajo, tomillo y aceite de oliva virgen extra. Receta tradicional de la comarca.'
+        ],
+        [
+            'producto'    => 'Tortas de aceite',
+            'precio'      => 3.00,
+            'stock'       => 62,
+            'descripcion' => 'Tortas de aceite crujientes con un toque de anís y sésamo. Elaboradas a mano en obrador sevillano. Pack de 6 unidades.'
+        ],
+        [
+            'producto'    => 'Aceite Virgen Extra “Aljarafe”',
+            'precio'      => 6.80,
+            'stock'       => 19,
+            'descripcion' => 'AOVE coupage de arbequina y manzanilla. Frutado medio, notas de tomate y almendra. Botella de 500 ml.'
+        ],
+        [
+            'producto'    => 'Jamón ibérico de recebo',
+            'precio'      => 12.50,
+            'stock'       => 8,
+            'descripcion' => 'Jamón de bellota 50% raza ibérica. Curación mínima 24 meses. Loncheado a cuchillo. Sobre de 100 g.'
+        ],
+        [
+            'producto'    => 'Queso de cabra payoya',
+            'precio'      => 4.75,
+            'stock'       => 25,
+            'descripcion' => 'Queso curado de leche cruda de cabra payoya de la Sierra de Cádiz. Sabor intenso y textura cremosa. Pieza de 300 g aprox.'
+        ],
+        [
+            'producto'    => 'Miel de azahar del Aljarafe',
+            'precio'      => 5.20,
+            'stock'       => 41,
+            'descripcion' => 'Miel monofloral de azahar recolectada en primavera. Dulce y aromática. Tarro de 500 g.'
+        ],
+        [
+            'producto'    => 'Almendras fritas estilo barra',
+            'precio'      => 3.40,
+            'stock'       => 53,
+            'descripcion' => 'Almendras marcona fritas con sal marina. El aperitivo clásico de cualquier bar sevillano. Bolsa de 200 g.'
+        ],
+        [
+            'producto'    => 'Bollos de anís tradicionales',
+            'precio'      => 2.30,
+            'stock'       => 35,
+            'descripcion' => 'Bollitos dulces con aroma intenso a matalahúva. Receta de abuela. Pack de 8 unidades.'
+        ],
+        [
+            'producto'    => 'Paté de aceituna verde',
+            'precio'      => 3.10,
+            'stock'       => 29,
+            'descripcion' => 'Paté untable elaborado con aceitunas manzanilla y especias. Perfecto para canapés. Tarro de 120 g.'
+        ],
+        [
+            'producto'    => 'Vino blanco DO “Aljarafe”',
+            'precio'      => 8.50,
+            'stock'       => 14,
+            'descripcion' => 'Vino blanco joven de uva garría. Fresco, afrutado y con toque cítrico. Botella 75 cl. Añada 2024.'
+        ],
+        [
+            'producto'    => 'Dulce de membrillo artesano',
+            'precio'      => 2.90,
+            'stock'       => 44,
+            'descripcion' => 'Membrillo casero cocido lentamente con azúcar de caña. Ideal con queso curado. Tarrina de 250 g.'
+        ],
+        [
+            'producto'    => 'Anchoas en aceite de oliva',
+            'precio'      => 7.20,
+            'stock'       => 22,
+            'descripcion' => 'Anchoas del Cantábrico en aceite de oliva virgen extra. Filetes grandes y jugosos. Lata de 50 g.'
+        ],
+        [
+            'producto'    => 'Chorizo casero del Aljarafe',
+            'precio'      => 4.60,
+            'stock'       => 31,
+            'descripcion' => 'Chorizo curado de cerdo ibérico con pimentón de la Vera. Pieza de 400 g aprox.'
+        ],
+        [
+            'producto'    => 'Flor de sal del Guadalquivir',
+            'precio'      => 2.70,
+            'stock'       => 58,
+            'descripcion' => 'Sal marina natural recolectada a mano en las salinas del Guadalquivir. Escamas crujientes. Tarro de 100 g.'
+        ],
+        [
+            'producto'    => 'Mermelada de higo de la zona',
+            'precio'      => 3.30,
+            'stock'       => 27,
+            'descripcion' => 'Mermelada extra de higos frescos del Aljarafe. 70% fruta. Sin conservantes. Tarro de 300 g.'
+        ],
+        [
+            'producto'    => 'Cervezas artesanas sevillanas',
+            'precio'      => 2.80,
+            'stock'       => 72,
+            'descripcion' => 'Pack de 3 botellas 33 cl: IPA, Rubia y Tostada. Elaboradas con agua del Aljarafe.'
+        ],
+        [
+            'producto'    => 'Tomate seco en aceite',
+            'precio'      => 4.20,
+            'stock'       => 18,
+            'descripcion' => 'Tomates secados al sol y conservados en AOVE con albahaca. Tarro de 200 g.'
+        ],
+        [
+            'producto'    => 'Aceite arbequina 250 ml',
+            'precio'      => 5.60,
+            'stock'       => 33,
+            'descripcion' => 'Aceite de oliva virgen extra 100% arbequina. Frutado verde intenso. Botella cristal 250 ml.'
+        ],
+        [
+            'producto'    => 'Picos de pan artesanos',
+            'precio'      => 1.80,
+            'stock'       => 89,
+            'descripcion' => 'Picos de pan crujientes elaborados con AOVE. Perfectos para picoteo. Bolsa de 200 g.'
+        ],
     ];
 
     // Si vas a resetear, hazlo SIEMPRE fuera de la transacción
@@ -54,7 +155,7 @@ function semillaProductosDatos(bool $reset = false): int
         resetTabla($pdo, 'productos');
     }
 
-    $sql = "INSERT INTO productos (nombre, precio) VALUES (:nombre, :precio)";
+    $sql = "INSERT INTO productos (nombre, precio, stock, descripcion) VALUES (:nombre, :precio, :stock, :descripcion)";
     $stmt = $pdo->prepare($sql);
 
     try {
@@ -64,6 +165,8 @@ function semillaProductosDatos(bool $reset = false): int
             $stmt->execute([
                 ':nombre' => (string)($p['producto'] ?? ''),
                 ':precio' => (float)($p['precio'] ?? 0.0),
+                ':stock' => (int)($p['stock'] ?? 0),
+                ':descripcion' => (string)($p['descripcion'] ?? ''),
             ]);
             $afectadas += $stmt->rowCount();
         }
@@ -98,7 +201,7 @@ function seedUsuariosDatos(bool $reset = false): int
         ['user2',    'user2',    'Pedro Cliente',         'usuario'],
         ['user3',    'user3',    'Lucía Compradora',      'usuario'],
         ['user4',    'user4',    'Manuel Perez',          'usuario'],
-         ['user5',    'user5',    'Tess test',          'usuario'],
+        ['user5',    'user5',    'Tess test',          'usuario'],
     ];
 
     if ($reset) {
