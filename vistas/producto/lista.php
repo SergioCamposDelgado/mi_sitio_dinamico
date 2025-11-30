@@ -20,9 +20,9 @@ $esManager = ($rol === 'manager');
     <tr>
       <th>Producto</th>
       <th>Precio (€)</th>
-      <th>Stock</th>
-      <th>Descripcion</th>
-      <?php if ($esManager): ?><th>Acciones</th><?php endif; ?>
+      <?php if ($esManager): ?>
+        <th>Acciones</th>
+      <?php endif; ?>
     </tr>
   </thead>
   <tbody>
@@ -30,22 +30,10 @@ $esManager = ($rol === 'manager');
       <tr>
         <td><?= htmlspecialchars($p->nombre) ?></td>
         <td><?= number_format((float)$p->precio, 2, ',', '.') ?></td>
-        <td><?= htmlspecialchars($p->stock) ?>
-          <?php if ($p->stock < 15): ?>
-            <span class="badge bg-danger ms-2">Bajo stock</span>
-          <?php endif; ?>
-        </td>
-        <td><?= htmlspecialchars($p->descripcion) ?></td>
 
         <?php if ($esManager): ?>
           <td>
-            <a href="index.php?p=productos&action=editar&id=<?= htmlspecialchars((string)$p->getId()) ?>" class="btn btn-sm btn-warning">✏️ Editar</a>
-            <!-- Eliminar SIEMPRE por POST, no GET -->
-            <form method="post" action="index.php?p=productos&action=eliminar" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
-              <input type="hidden" name="id" value="<?= htmlspecialchars((string)$p->getId()) ?>">
-              <input type="hidden" name="csrf" value="<?= htmlspecialchars($_SESSION['csrf'] ?? '') ?>">
-              <button class="btn btn-sm btn-danger" type="submit">🗑️ Eliminar</button>
-            </form>
+            <a href="index.php?p=productos&action=detalle&id=<?= htmlspecialchars((string)$p->getId()) ?>" class="btn btn-sm btn-warning">👁️ Detalle</a>
           </td>
         <?php endif; ?>
       </tr>

@@ -248,3 +248,31 @@ function mostrarListadoProductos(?array $auth): string {
 
     return $html;
 }
+
+
+function paginaError (String $error, String $descripcion) : string {
+
+  $res = '<div class="text-center mb-5">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 4.5rem;"></i>
+                <h1 class="display-5 fw-bold mt-4 text-danger">' . $error . '</h1>
+                <p class="lead text-muted">
+                   ' . $descripcion . '
+                </p>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-4">
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="index.php?p=contenido" class="btn btn-primary btn-lg px-5">
+                            <i class="bi bi-arrow-left me-2"></i> Volver al listado
+                        </a>
+                        <a href="index.php" class="btn btn-outline-secondary btn-lg px-5">
+                            <i class="bi bi-house me-2"></i> Ir al inicio
+                        </a>
+                    </div>
+                </div>
+            </div>';
+  
+
+  return $res;
+}

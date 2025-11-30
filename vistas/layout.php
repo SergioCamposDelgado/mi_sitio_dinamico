@@ -4,17 +4,19 @@ ini_set('display_errors', '1');
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi primer sitio modular con PHP</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
+
 <body class="bg-light">
   <div class="container py-4">
     <?php
-      $hdr = __DIR__ . '/elementos/header.php';
-      if (is_file($hdr)) require_once $hdr;
+    $hdr = __DIR__ . '/elementos/header.php';
+    if (is_file($hdr)) require_once $hdr;
     ?>
 
     <main class="mt-4">
@@ -35,21 +37,19 @@ ini_set('display_errors', '1');
           if ($action === 'nuevo') {
             [$auth] = ProductoController::datosFormNuevo();
             $cnt = __DIR__ . '/producto/form.php';
-
           } elseif ($action === 'crear' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::crear(); exit;
-
+            ProductoController::crear();
+            exit;
           } elseif ($action === 'editar') {
             [$auth, $producto] = ProductoController::datosFormEditar();
             // si aún no tienes form_editar.php, apunta temporalmente a form.php
             $cnt = __DIR__ . '/producto/form_editar.php';
-
           } elseif ($action === 'actualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::actualizar(); exit;
-
+            ProductoController::actualizar();
+            exit;
           } elseif ($action === 'eliminar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::eliminar(); exit;
-
+            ProductoController::eliminar();
+            exit;
           } else {
             [$auth, $productos] = ProductoController::datosListado();
             $cnt = __DIR__ . '/producto/lista.php';
@@ -63,20 +63,21 @@ ini_set('display_errors', '1');
           if ($action === 'nuevo') {
             [$auth] = ProductoController::datosFormNuevo();
             $cnt = __DIR__ . '/producto/form.php';
-
           } elseif ($action === 'crear' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::crear(); exit;
-
+            ProductoController::crear();
+            exit;
+          } elseif ($action === 'detalle') {
+            [$auth, $producto] = ProductoController::datosFormDetalle();
+            $cnt = __DIR__ . '/producto/detalle.php';
           } elseif ($action === 'editar') {
             [$auth, $producto] = ProductoController::datosFormEditar();
             $cnt = __DIR__ . '/producto/form.php';
-
           } elseif ($action === 'actualizar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::actualizar(); exit;
-
+            ProductoController::actualizar();
+            exit;
           } elseif ($action === 'eliminar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            ProductoController::eliminar(); exit;
-
+            ProductoController::eliminar();
+            exit;
           } else {
             [$auth, $productos] = ProductoController::datosListado();
             $cnt = __DIR__ . '/producto/lista.php';
@@ -110,9 +111,10 @@ ini_set('display_errors', '1');
     </main>
 
     <?php
-      $ftr = __DIR__ . '/elementos/footer.php';
-      if (is_file($ftr)) require_once $ftr;
+    $ftr = __DIR__ . '/elementos/footer.php';
+    if (is_file($ftr)) require_once $ftr;
     ?>
   </div>
 </body>
+
 </html>

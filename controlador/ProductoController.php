@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../nucleo/Database.php';
 require_once __DIR__ . '/../modelo/dao/ProductoDAO.php';
 require_once __DIR__ . '/../modelo/Producto.php';
+require_once __DIR__ . '/../vistas/elementos/plantillas.php';
 
 final class ProductoController
 {
@@ -88,6 +89,35 @@ final class ProductoController
 
         return [$auth, $producto];
     }
+
+    public static function datosFormDetalle(): array
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $auth = $_SESSION['auth'] ?? null;
+        if (($auth['rol'] ?? 'visitante') !== 'manager') {
+            http_response_code(403);
+            exit(paginaError("Error 403, sin permisos", "No tienes permisos para acceder"));
+        }
+
+        $id = (int)($_GET['id'] ?? 0);
+        if ($id <= 0) {
+            http_response_code(400);
+            exit(paginaError("Error 400, id invalido", "El producto no se ha encontrado"));
+        }
+
+        $pdo = Database::getConnection();
+        $dao = new ProductoDAO($pdo);
+        $producto = $dao->buscarPorId($id); // heredado del DAO base
+        if (!$producto) {
+            http_response_code(404);
+            exit(paginaError("Error 404, enlace incorrecto", "La url es invalida"));
+        }
+
+        return [$auth, $producto];
+    }
+
 
     public static function actualizar(): void
     {
