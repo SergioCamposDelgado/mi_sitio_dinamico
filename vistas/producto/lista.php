@@ -8,7 +8,6 @@ $esManager = ($rol === 'manager');
 $esCliente = ($rol === 'usuario');
 $cantidadTotal = array_sum($_SESSION['carrito'] ?? []);  // Suma todas las cantidades
 
-var_dump($_SESSION['carrito']);
 ?>
 <h2 class="text-success text-center mt-4">Productos locales de Camas</h2>
 <p class="text-center text-muted">Bienvenido, <?= htmlspecialchars($nombre) ?></p>
