@@ -50,6 +50,18 @@ ini_set('display_errors', '1');
           } elseif ($action === 'eliminar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             ProductoController::eliminar();
             exit;
+          } elseif ($action === 'añadirProductoCarrito') {
+
+            $id       = (int)($_GET['id'] ?? 0);
+            $cantidad = (int)($_GET['cant'] ?? 1);
+
+            if ($id > 0) {
+              agregarAlCarrito($id, $cantidad);
+            }
+            exit;
+          } elseif ($action === 'verCarrito') {
+            paginaCarrito();
+            exit;
           } else {
             [$auth, $productos] = ProductoController::datosListado();
             $cnt = __DIR__ . '/producto/lista.php';
@@ -58,6 +70,7 @@ ini_set('display_errors', '1');
 
         case 'productos': // si usas p=productos en los enlaces
           require_once __DIR__ . '/../controlador/ProductoController.php';
+
           $action = $_GET['action'] ?? 'index';
 
           if ($action === 'nuevo') {
@@ -83,7 +96,38 @@ ini_set('display_errors', '1');
             $cnt = __DIR__ . '/producto/lista.php';
           }
           break;
+        case 'carrito':
+          require_once __DIR__ . '/producto/carrito.php';
+          $action = $_GET['action'] ?? 'index';
+          if ($action === 'add') {
 
+            $id       = (int)($_GET['id'] ?? 0);
+            $cantidad = (int)($_GET['cant'] ?? 1);  // ← lee del formulario
+
+            if ($id > 0 && $cantidad > 0) {
+              agregarAlCarrito($id, $cantidad);
+            }
+
+            // Redirigir para evitar duplicados y limpiar URL
+            header("Location: index.php?p=productos");
+            exit;
+          } elseif ($action === 'verCarrito') {
+            echo paginaCarrito();
+            exit;
+          } elseif ($action === 'vaciar') {
+            vaciarCarrito();
+            echo paginaCarrito();
+            exit;
+          } elseif ($action === 'eliminar') {
+            $id       = (int)($_GET['id'] ?? 0);
+            eliminarProducto($id);
+            echo paginaCarrito();
+            exit;
+          } else {
+            header("Location: index.php?p=productos");
+            exit;
+          }
+          break;
         case 'server':
           $cnt = __DIR__ . '/elementos/server.php';
           break;

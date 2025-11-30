@@ -1,11 +1,13 @@
 <?php
 
-function escaparHTML(string $texto): string {
-    return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+function escaparHTML(string $texto): string
+{
+  return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-function escaparAttr(string $texto): string {
-    return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+function escaparAttr(string $texto): string
+{
+  return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 /**
@@ -13,10 +15,11 @@ function escaparAttr(string $texto): string {
  * 🏗️ Genera una página HTML con Bootstrap
  * ------------------------------------------------------------
  */
-function generarPaginaHTML(string $titulo, string $contenido): string {
-    $tituloLimpio = escaparHTML($titulo);
+function generarPaginaHTML(string $titulo, string $contenido): string
+{
+  $tituloLimpio = escaparHTML($titulo);
 
-    return <<<HTML
+  return <<<HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,10 +44,11 @@ HTML;
 /**
  * 🔔 Alerta Bootstrap
  */
-function alerta(string $tipo, string $msg): string {
-    $permitidos = ['primary','secondary','success','danger','warning','info','light','dark'];
-    if (!in_array($tipo, $permitidos, true)) $tipo = 'info';
-    return '<div class="alert alert-' . $tipo . '" role="alert">' . escaparHTML($msg) . '</div>';
+function alerta(string $tipo, string $msg): string
+{
+  $permitidos = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'];
+  if (!in_array($tipo, $permitidos, true)) $tipo = 'info';
+  return '<div class="alert alert-' . $tipo . '" role="alert">' . escaparHTML($msg) . '</div>';
 }
 
 /**
@@ -58,36 +62,37 @@ function alerta(string $tipo, string $msg): string {
  * @param string      $oldUser   Usuario tecleado previamente (opcional)
  * @param string|null $csrf      Token CSRF (opcional)
  */
-function generarFormularioLogin(string $actionURL, ?string $error = null, string $oldUser = '', ?string $csrf = null): string {
-    // Soporte "flash" automático si no se pasan parámetros
-    if ($error === null && isset($_SESSION['error'])) {
-        $error = (string)$_SESSION['error'];
-        unset($_SESSION['error']);
-    }
-    if ($oldUser === '' && isset($_SESSION['old']['usuario'])) {
-        $oldUser = (string)$_SESSION['old']['usuario'];
-        unset($_SESSION['old']);
-    }
+function generarFormularioLogin(string $actionURL, ?string $error = null, string $oldUser = '', ?string $csrf = null): string
+{
+  // Soporte "flash" automático si no se pasan parámetros
+  if ($error === null && isset($_SESSION['error'])) {
+    $error = (string)$_SESSION['error'];
+    unset($_SESSION['error']);
+  }
+  if ($oldUser === '' && isset($_SESSION['old']['usuario'])) {
+    $oldUser = (string)$_SESSION['old']['usuario'];
+    unset($_SESSION['old']);
+  }
 
-    $url = escaparAttr($actionURL);
-    $old = escaparAttr($oldUser);
+  $url = escaparAttr($actionURL);
+  $old = escaparAttr($oldUser);
 
-    $html  = '<h1 class="mb-3 text-center">Iniciar sesión</h1>';
+  $html  = '<h1 class="mb-3 text-center">Iniciar sesión</h1>';
 
-    if ($error) {
-        $html .= alerta('danger', $error);
-    }
+  if ($error) {
+    $html .= alerta('danger', $error);
+  }
 
-    $html .= <<<HTML
+  $html .= <<<HTML
   <form method="POST" action="{$url}" class="p-4 border rounded bg-white shadow-sm mx-auto" style="max-width:420px;">
     <input type="hidden" name="accion" value="login">
 HTML;
 
-    if ($csrf) {
-        $html .= '    <input type="hidden" name="csrf_token" value="' . escaparAttr($csrf) . '">' . PHP_EOL;
-    }
+  if ($csrf) {
+    $html .= '    <input type="hidden" name="csrf_token" value="' . escaparAttr($csrf) . '">' . PHP_EOL;
+  }
 
-    $html .= <<<HTML
+  $html .= <<<HTML
     <div class="mb-3">
       <label for="usuario" class="form-label">Usuario</label>
       <input id="usuario" type="text" name="usuario" class="form-control" value="{$old}" required autocomplete="username">
@@ -103,7 +108,7 @@ HTML;
   </div>
 HTML;
 
-    return $html;
+  return $html;
 }
 
 /**
@@ -112,53 +117,55 @@ HTML;
  * @param string      $actionURL URL del script que procesará el logout
  * @param string|null $csrf      Token CSRF (opcional)
  */
-function generarLogout(string $actionURL, ?string $csrf = null): string {
-    $url = escaparAttr($actionURL);
+function generarLogout(string $actionURL, ?string $csrf = null): string
+{
+  $url = escaparAttr($actionURL);
 
-    $html  = '<form method="POST" action="' . $url . '" class="text-center mt-3">';
-    $html .= '  <input type="hidden" name="accion" value="logout">' . PHP_EOL;
+  $html  = '<form method="POST" action="' . $url . '" class="text-center mt-3">';
+  $html .= '  <input type="hidden" name="accion" value="logout">' . PHP_EOL;
 
-    if ($csrf) {
-        $html .= '  <input type="hidden" name="csrf_token" value="' . escaparAttr($csrf) . '">' . PHP_EOL;
-    }
+  if ($csrf) {
+    $html .= '  <input type="hidden" name="csrf_token" value="' . escaparAttr($csrf) . '">' . PHP_EOL;
+  }
 
-    $html .= '  <button type="submit" class="btn btn-danger">Cerrar sesión</button>';
-    $html .= '</form>';
+  $html .= '  <button type="submit" class="btn btn-danger">Cerrar sesión</button>';
+  $html .= '</form>';
 
-    return $html;
+  return $html;
 }
 // ========================================================
 // Función: mostrarListadoUsuarios()
 // Muestra una tabla con los usuarios si el usuario logueado es admin.
 // ========================================================
-function mostrarListadoUsuarios(): string {
-    require_once __DIR__ . '/../../nucleo/Database.php';
-    require_once __DIR__ . '/../../modelo/dao/UsuarioDAO.php';
+function mostrarListadoUsuarios(): string
+{
+  require_once __DIR__ . '/../../nucleo/Database.php';
+  require_once __DIR__ . '/../../modelo/dao/UsuarioDAO.php';
 
-    $pdo = Database::getConnection();
-    $dao = new UsuarioDAO($pdo);
-    $usuarios = $dao->listar(); // ← devuelve Usuario[]
+  $pdo = Database::getConnection();
+  $dao = new UsuarioDAO($pdo);
+  $usuarios = $dao->listar(); // ← devuelve Usuario[]
 
-    $h = '<hr><h2 class="mt-4">👑 Administración de Usuarios</h2>';
+  $h = '<hr><h2 class="mt-4">👑 Administración de Usuarios</h2>';
 
-    if (!$usuarios) {
-        return $h . '<div class="alert alert-info mt-3">No hay usuarios registrados.</div>';
-    }
+  if (!$usuarios) {
+    return $h . '<div class="alert alert-info mt-3">No hay usuarios registrados.</div>';
+  }
 
-    $h .= '<div class="table-responsive mt-3">
+  $h .= '<div class="table-responsive mt-3">
             <table class="table table-bordered table-hover align-middle">
               <thead class="table-dark text-center">
                 <tr><th>ID</th><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Acciones</th></tr>
               </thead><tbody>';
 
-    foreach ($usuarios as $u) {
-        /** @var Usuario $u */
-        $id      = (int)$u->getId();
-        $usuario = htmlspecialchars($u->usuario, ENT_QUOTES, 'UTF-8');
-        $nombre  = htmlspecialchars($u->nombre,  ENT_QUOTES, 'UTF-8');
-        $rol     = htmlspecialchars($u->rol,     ENT_QUOTES, 'UTF-8');
+  foreach ($usuarios as $u) {
+    /** @var Usuario $u */
+    $id      = (int)$u->getId();
+    $usuario = htmlspecialchars($u->usuario, ENT_QUOTES, 'UTF-8');
+    $nombre  = htmlspecialchars($u->nombre,  ENT_QUOTES, 'UTF-8');
+    $rol     = htmlspecialchars($u->rol,     ENT_QUOTES, 'UTF-8');
 
-        $h .= "<tr>
+    $h .= "<tr>
                  <td>{$id}</td>
                  <td>{$usuario}</td>
                  <td>{$nombre}</td>
@@ -172,12 +179,12 @@ function mostrarListadoUsuarios(): string {
                    </form>
                  </td>
                </tr>";
-    }
+  }
 
-    $h .= '</tbody></table></div>
+  $h .= '</tbody></table></div>
            <div class="mt-3"><a href=\"?p=usuarios&accion=crear\" class=\"btn btn-primary\">➕ Nuevo usuario</a></div>';
 
-    return $h;
+  return $h;
 }
 
 // ========================================================
@@ -185,72 +192,74 @@ function mostrarListadoUsuarios(): string {
 // Muestra una tabla con los productos.
 // Si el usuario logueado es 'manager', permite realizar CRUD.
 // ========================================================
-function mostrarListadoProductos(?array $auth): string {
-    require_once __DIR__ . '/../../nucleo/Database.php';
-    require_once __DIR__ . '/../../modelo/dao/ProductoDAO.php';
-    require_once __DIR__ . '/../../modelo/Producto.php';
+function mostrarListadoProductos(?array $auth): string
+{
+  require_once __DIR__ . '/../../nucleo/Database.php';
+  require_once __DIR__ . '/../../modelo/dao/ProductoDAO.php';
+  require_once __DIR__ . '/../../modelo/Producto.php';
 
-    $pdo = Database::getConnection();
-    $dao = new ProductoDAO($pdo);
-    $productos = $dao->listar(); // devuelve Producto[]
+  $pdo = Database::getConnection();
+  $dao = new ProductoDAO($pdo);
+  $productos = $dao->listar(); // devuelve Producto[]
 
-    // Si no hay sesión, tratamos como visitante
-    $rol = $auth['rol'] ?? 'visitante';
-    $nombre = $auth['nombre'] ?? 'Invitado';
-    $esManager = ($rol === 'manager');
+  // Si no hay sesión, tratamos como visitante
+  $rol = $auth['rol'] ?? 'visitante';
+  $nombre = $auth['nombre'] ?? 'Invitado';
+  $esManager = ($rol === 'manager');
 
-    // Encabezado
-    $html = "<h2 class='text-success text-center mt-4'>Productos locales de Camas</h2>";
-    $html .= "<p class='text-center text-muted'>Bienvenido, {$nombre}</p>";
+  // Encabezado
+  $html = "<h2 class='text-success text-center mt-4'>Productos locales de Camas</h2>";
+  $html .= "<p class='text-center text-muted'>Bienvenido, {$nombre}</p>";
 
-    // Botón de agregar (solo manager)
-    if ($esManager) {
-        $html .= "<div class='text-center mb-3'>
+  // Botón de agregar (solo manager)
+  if ($esManager) {
+    $html .= "<div class='text-center mb-3'>
                     <a href='producto_nuevo.php' class='btn btn-primary'>➕ Añadir producto</a>
                   </div>";
-    }
+  }
 
-    // Tabla
-    $html .= "<table class='table table-bordered table-striped w-75 mx-auto mt-4 text-center align-middle'>
+  // Tabla
+  $html .= "<table class='table table-bordered table-striped w-75 mx-auto mt-4 text-center align-middle'>
                 <thead class='table-primary'>
                   <tr>
                     <th>Producto</th>
                     <th>Precio (€)</th>";
 
-    if ($esManager) {
-        $html .= "<th>Acciones</th>";
-    }
+  if ($esManager) {
+    $html .= "<th>Acciones</th>";
+  }
 
-    $html .= "  </tr>
+  $html .= "  </tr>
                 </thead>
                 <tbody>";
 
-    foreach ($productos as $p) {
-        $nombreProd = htmlspecialchars($p->nombre);
-        $precio = number_format($p->precio, 2, ',', '.');
+  foreach ($productos as $p) {
+    $nombreProd = htmlspecialchars($p->nombre);
+    $precio = number_format($p->precio, 2, ',', '.');
 
-        $html .= "<tr>
+    $html .= "<tr>
                     <td>{$nombreProd}</td>
                     <td>{$precio}</td>";
 
-        if ($esManager) {
-            $id = htmlspecialchars($p->getId());
-            $html .= "<td>
+    if ($esManager) {
+      $id = htmlspecialchars($p->getId());
+      $html .= "<td>
                         <a href='producto_editar.php?id={$id}' class='btn btn-sm btn-warning'>✏️ Editar</a>
                         <a href='producto_eliminar.php?id={$id}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro que deseas eliminar este producto?\");'>🗑️ Eliminar</a>
                       </td>";
-        }
-
-        $html .= "</tr>";
     }
 
-    $html .= "</tbody></table>";
+    $html .= "</tr>";
+  }
 
-    return $html;
+  $html .= "</tbody></table>";
+
+  return $html;
 }
 
 
-function paginaError (String $error, String $descripcion) : string {
+function paginaError(String $error, String $descripcion): string
+{
 
   $res = '<div class="text-center mb-5">
                 <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 4.5rem;"></i>
@@ -272,7 +281,8 @@ function paginaError (String $error, String $descripcion) : string {
                     </div>
                 </div>
             </div>';
-  
+
 
   return $res;
 }
+
