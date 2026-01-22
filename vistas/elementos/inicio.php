@@ -18,6 +18,8 @@ if ($auth) {
         $contenido .= mostrarListadoUsuarios(); 
     }
 
+    $contenido .= '<script src="vistas/js/hola.js"></script>';
+
 } else {
     $contenido = generarFormularioLogin(ACTION_URL);
 }
